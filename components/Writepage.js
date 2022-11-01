@@ -4,12 +4,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { SaveBtn } from '../styled';
 const Writepage = ({route}) => {
   const navigation = useNavigation();
   const {id,note} = route?.params;
   const [myData, setmyData] = useState(note);
   mynoteFun = (v) => {   
-    console.log(v)
     setmyData(v)
   }
   
@@ -39,21 +39,21 @@ const Writepage = ({route}) => {
   }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,backgroundColor:"rgba(10,10,10,1)"}}>
       
       <TextInput 
-        style={{ flex: 1, textAlignVertical: 'top',zIndex:77777,fontSize:20,padding:15,}} 
+        style={{ flex: 1, textAlignVertical: 'top',zIndex:77777,fontSize:20,padding:15,color:"white"}} 
         autoFocus={true} 
         placeholder="write your record..."
         value={myData}
         onChangeText={(e)=>mynoteFun(e)}
         multiline={true}>
         </TextInput>
-      <TouchableOpacity onPress={id?UpdateNote:AddNote} style={styles.plassHolder}>
-        <Text style={{...styles.addButton, textAlign: 'center'}}>
+      {myData!==''&&<TouchableOpacity onPress={id?UpdateNote:AddNote} style={styles.plassHolder}>
+        <SaveBtn>
           <FontAwesomeIcon icon={faCheck} />
-        </Text>
-      </TouchableOpacity>
+        </SaveBtn>
+      </TouchableOpacity>}
     </View>
   );
 };

@@ -8,6 +8,7 @@ import Note from './components/Note';
 import Writepage from './components/Writepage';
 import firestore from '@react-native-firebase/firestore';
 import firebase from "@react-native-firebase/app"
+import { PlaceHolderCss,AddButton } from './styled';
 
 function HomeScreen({ navigation }) {
   const [myData, setmyData] = useState();
@@ -20,20 +21,20 @@ function HomeScreen({ navigation }) {
   useEffect(() => {   
       getDataFromFirestore();
     
-  },[myData]);
+  },[]);
 
   
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,backgroundColor:"rgba(10,10,10,1)"}}>
       <ScrollView>
         {
           myData?.map((note,index) => <Note key={index} note={note} noteId={note["_ref"]['_documentPath']['_parts'][1]} /> )
         }
       </ScrollView>
-      <TouchableOpacity style={styles.plassHolder} onPress={() => navigation.navigate('Write',{id:null,note:null})}>
-          <Text style={{...styles.addButton,textAlign:"center"}}><FontAwesomeIcon icon={ faAdd } /></Text>
-      </TouchableOpacity>
+      <PlaceHolderCss onPress={() => navigation.navigate('Write',{id:null,note:null})}>
+          <AddButton><FontAwesomeIcon icon={ faAdd } /></AddButton>
+      </PlaceHolderCss>
     </View>
   );
 }
@@ -45,13 +46,13 @@ function LogoTitle() {
   }
   return (
     <View style={styles.headerStyle}>
-      <Text style={{fontSize:20}}>Notes</Text>
+      <Text style={{fontSize:20, color:"white"}}>Notes</Text>
       {
        searchbar&&<TextInput autoFocus={true} style={{...styles.searchBar}}></TextInput>
       }
       <View>
         <TouchableOpacity onPress={showSearchBar}>
-          <Text style={{fontSize:20}}><FontAwesomeIcon icon={ faMagnifyingGlass } /></Text>
+          <Text style={{fontSize:20}}><FontAwesomeIcon color='white' icon={ faMagnifyingGlass } /></Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -79,12 +80,24 @@ function App() {
           options={
             { headerTitle: (props) => <LogoTitle {...props} />,
             headerStyle: {
-              backgroundColor: '#0cb3fa',
+              backgroundColor: '#212120',
+              color:"white"
             },
             headerTintColor: '#0cdefa',
             }}
         />
-        <Stack.Screen name="Write" component={NoteWriteScreen} />
+        <Stack.Screen 
+          name="Write" 
+          component={NoteWriteScreen}
+          options={
+            {
+            headerStyle: {
+              backgroundColor: '#212120',
+
+            },
+            headerTintColor: '#0cdefa',
+            }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -97,22 +110,10 @@ const styles = StyleSheet.create({
     justifyContent:"space-between",
     width:"96%",
     alignItems:"center"
-  },
-  plassHolder:{
-    position:"absolute",
-    bottom:20,
-    width:"100%",
-    display:'flex',
-    justifyContent:"center",
-    flexDirection:"row",
 
   },
-  addButton:{
-    backgroundColor:"#0cb3fa",
-    width:"20%",
-    padding:12,
-    borderRadius:20
-  },
+  
+  
   searchBar:{
     backgroundColor:"white",
     width:"70%",

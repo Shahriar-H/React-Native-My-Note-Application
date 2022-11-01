@@ -5,6 +5,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
+import { CardNote,CardContent } from '../styled';
 
 const Note = ({note,noteId}) => {
     const navigation = useNavigation();
@@ -33,14 +34,14 @@ const Note = ({note,noteId}) => {
         
     }
     return (
-        <View style={styles.cardCon}>
+        <CardNote>
             {note?._data?(
-            <TouchableOpacity style={styles.cardDis}>
+            <CardContent>
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('Write',{id:noteId,note:myNote})}>
                         <Text style={{fontSize:10,width:"100%",color:"grey",marginBottom:5}}>{noteId}</Text>
-                        <Text style={{fontSize:17,marginBottom:20}}>
-                            {myNote.substr(0,70)+"...."}
+                        <Text style={{fontSize:17,marginBottom:20,color:"white"}}>
+                            {myNote?.substr(0,70)+"...."}
                         </Text>
                     </TouchableOpacity>
                     <View style={styles.manageNote}>
@@ -50,29 +51,15 @@ const Note = ({note,noteId}) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </CardContent>
             ):<Text>Loading...</Text>}
-        </View>
+        </CardNote>
     );
 }
 
 const styles = StyleSheet.create({
-    cardCon:{
-        display:"flex",
-        justifyContent:"center",
-        flexDirection:"row",
-
-    },
-    cardDis:{
-        backgroundColor:"white",
-        width:'90%',
-        padding:15,
-        margin:10,
-        borderRadius:3,
-        shadowColor:"grey",
-        shadowOpacity:0.5,
-        elevation:7
-    },
+    
+    
     manageNote:{
         display:"flex",
         justifyContent:"space-between",
